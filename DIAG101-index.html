@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIAG-101 — Diagnostic Worksheet | ADAS Solutions USA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════ TOP BAR ═══════════════════════════ -->
+<header id="topbar">
+  <div class="topbar-left">
+    <span class="brand-mark">ADAS</span>
+    <span class="brand-sub">SOLUTIONS USA</span>
+    <span class="doc-id">DIAG-101-WS · Rev 1.0</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn btn-ghost" id="btn-new" title="New worksheet">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      New
+    </button>
+    <button class="btn btn-ghost" id="btn-history" title="View saved worksheets">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="7" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="12" width="7" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+      History
+    </button>
+    <button class="btn btn-ghost" id="btn-share" title="Share with expert">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="12" cy="3" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="3" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7l5-3M5 9l5 3" stroke="currentColor" stroke-width="1.5"/></svg>
+      Share
+    </button>
+    <button class="btn btn-primary" id="btn-print" title="Print / Save PDF">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3" y="1" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M3 9H1v5h14V9h-2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="4" y="11" width="8" height="1.5" rx=".75" fill="currentColor"/><rect x="4" y="13" width="5" height="1.5" rx=".75" fill="currentColor"/></svg>
+      Print / PDF
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════ VIEW MODE BANNER ═══════════════════════════ -->
+<div id="view-mode-banner" class="hidden">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  <strong>Expert View</strong> — This worksheet was shared with you for review. Fields are read-only.
+  <button class="btn btn-sm btn-ghost" id="btn-copy-view">Copy Link</button>
+</div>
+
+<!-- ═══════════════════════════ MAIN FORM ═══════════════════════════ -->
+<main id="app">
+
+  <!-- HERO -->
+  <div class="hero no-print">
+    <div class="hero-text">
+      <h1>Vehicle Diagnostic Worksheet</h1>
+      <p>Follow all six steps in order. Every field is saved automatically. Use <strong>Share</strong> to send your work to an expert during escalation.</p>
+    </div>
+    <div class="hero-steps">
+      <span class="step-pip active" data-step="1">1</span>
+      <span class="step-pip" data-step="2">2</span>
+      <span class="step-pip" data-step="3">3</span>
+      <span class="step-pip" data-step="4">4</span>
+      <span class="step-pip" data-step="5">5</span>
+      <span class="step-pip" data-step="6">6</span>
+    </div>
+  </div>
+
+  <!-- ── VEHICLE INFO ────────────────────────────────────────── -->
+  <section class="card vehicle-info" id="section-vehicle">
+    <div class="card-header">
+      <span class="card-label">Vehicle Information</span>
+      <span class="autosave-indicator" id="save-indicator">
+        <span class="save-dot"></span> Saved
+      </span>
+    </div>
+    <div class="info-grid">
+      <div class="field col-sm">
+        <label>Date</label>
+        <input type="date" id="f-date" data-key="date">
+      </div>
+      <div class="field col-sm">
+        <label>RO #</label>
+        <input type="text" id="f-ro" placeholder="e.g. 6769" data-key="ro">
+      </div>
+      <div class="field col-md">
+        <label>Technician</label>
+        <input type="text" id="f-tech" placeholder="Full name" data-key="tech">
+      </div>
+      <div class="field col-xs">
+        <label>Year</label>
+        <input type="text" id="f-year" placeholder="2024" maxlength="4" data-key="year">
+      </div>
+      <div class="field col-sm">
+        <label>Make</label>
+        <input type="text" id="f-make" placeholder="Ford" data-key="make">
+      </div>
+      <div class="field col-md">
+        <label>Model</label>
+        <input type="text" id="f-model" placeholder="F-150" data-key="model">
+      </div>
+      <div class="field col-vin">
+        <label>VIN</label>
+        <input type="text" id="f-vin" placeholder="17-character VIN" maxlength="17" class="mono" data-key="vin">
+      </div>
+      <div class="field col-sm">
+        <label>Mileage</label>
+        <input type="text" id="f-mileage" placeholder="e.g. 42,310" data-key="mileage">
+      </div>
+      <div class="field col-full">
+        <label>Customer Concern</label>
+        <input type="text" id="f-concern" placeholder="Describe the customer's reported concern" data-key="concern">
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 1 ────────────────────────────────────────────────── -->
+  <section class="card" id="section-step1">
+    <div class="step-header" style="--step-color: #2E75B6">
+      <div class="step-num">
+        <span class="step-label-sm">STEP</span>
+        <span class="step-num-big">1</span>
+      </div>
+      <div class="step-title">Verify the Concern</div>
+    </div>
+    <div class="card-body">
+      <div class="two-col">
+        <div class="field-group">
+          <label class="group-label">Concern Status</label>
+          <div class="check-group" id="step1-status">
+            <label class="check-item"><input type="radio" name="concern-status" value="reproduced" data-key="s1_status"><span>Verified — concern reproduced</span></label>
+            <label class="check-item"><input type="radio" name="concern-status" value="not-reproduced" data-key="s1_status"><span>Could not reproduce after test drive</span></label>
+            <label class="check-item"><input type="radio" name="concern-status" value="intermittent" data-key="s1_status"><span>Intermittent — requires customer follow-up</span></label>
+          </div>
+          <div class="field mt-8">
+            <label>Customer Contacted?</label>
+            <div class="check-inline">
+              <label class="check-item"><input type="radio" name="cust-contact" value="yes" data-key="s1_cust_contact"><span>Yes</span></label>
+              <label class="check-item"><input type="radio" name="cust-contact" value="no" data-key="s1_cust_contact"><span>No — not required</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="group-label">Test Drive</label>
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" data-key="s1_drive_done"><span>Pre-diagnosis test drive performed</span></label>
+          </div>
+          <div class="two-sub mt-8">
+            <div class="field">
+              <label>Duration</label>
+              <input type="text" placeholder="e.g. 18 min" data-key="s1_drive_duration">
+            </div>
+            <div class="field">
+              <label>Distance</label>
+              <input type="text" placeholder="e.g. 6.2 mi" data-key="s1_drive_distance">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field mt-12">
+        <label>Concern Description / Observations</label>
+        <textarea rows="3" placeholder="Describe what was observed during the test drive, under what conditions the concern appeared, etc." data-key="s1_description"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 2 ────────────────────────────────────────────────── -->
+  <section class="card" id="section-step2">
+    <div class="step-header" style="--step-color: #1B5E9C">
+      <div class="step-num">
+        <span class="step-label-sm">STEP</span>
+        <span class="step-num-big">2</span>
+      </div>
+      <div class="step-title">Check for Codes</div>
+    </div>
+    <div class="card-body">
+      <p class="section-note">Record ALL codes from ALL modules. Note status: <strong>A</strong> = Active · <strong>P</strong> = Pending · <strong>H</strong> = Historical</p>
+      <div class="table-wrap">
+        <table class="dtc-table" id="dtc-table">
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              <th>Module</th>
+              <th>DTC Code</th>
+              <th>Description</th>
+              <th class="col-status">Status</th>
+              <th class="col-related">Related?</th>
+              <th class="col-del no-print"></th>
+            </tr>
+          </thead>
+          <tbody id="dtc-body">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <button class="btn-add-row no-print" id="add-dtc-row">
+        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Add DTC Row
+      </button>
+    </div>
+  </section>
+
+  <!-- ── STEP 3 ────────────────────────────────────────────────── -->
+  <section class="card" id="section-step3">
+    <div class="step-header" style="--step-color: #1B3A5C">
+      <div class="step-num">
+        <span class="step-label-sm">STEP</span>
+        <span class="step-num-big">3</span>
+      </div>
+      <div class="step-title">Check for TSBs / SSMs / GSBs</div>
+    </div>
+    <div class="card-body">
+      <div class="two-col">
+        <div class="field-group">
+          <label class="group-label">Service Messages Found</label>
+          <div class="tsb-row">
+            <label class="check-item"><input type="checkbox" data-key="s3_tsb"><span>TSB</span></label>
+            <input type="text" class="inline-num" placeholder="Number" data-key="s3_tsb_num">
+          </div>
+          <div class="tsb-row">
+            <label class="check-item"><input type="checkbox" data-key="s3_ssm"><span>SSM</span></label>
+            <input type="text" class="inline-num" placeholder="Number" data-key="s3_ssm_num">
+          </div>
+          <div class="tsb-row">
+            <label class="check-item"><input type="checkbox" data-key="s3_gsb"><span>GSB</span></label>
+            <input type="text" class="inline-num" placeholder="Number" data-key="s3_gsb_num">
+          </div>
+          <label class="check-item mt-8"><input type="checkbox" data-key="s3_none"><span>None found — proceed to Step 4</span></label>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>Does any message fully resolve the concern?</label>
+            <div class="check-inline">
+              <label class="check-item"><input type="radio" name="tsb-resolve" value="yes" data-key="s3_resolves"><span>Yes — follow procedure</span></label>
+              <label class="check-item"><input type="radio" name="tsb-resolve" value="no" data-key="s3_resolves"><span>No — proceed to Step 4</span></label>
+            </div>
+          </div>
+          <div class="field mt-8">
+            <label>Source / Portal Used</label>
+            <input type="text" placeholder="e.g. Alldata, FDRS, ISTA…" data-key="s3_source">
+          </div>
+        </div>
+      </div>
+      <div class="field mt-12">
+        <label>Summary of Findings / Actions Taken</label>
+        <textarea rows="3" placeholder="Describe what service messages were found, which were applicable, and any harness checks or other actions performed per the SSM/TSB." data-key="s3_summary"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 4 ────────────────────────────────────────────────── -->
+  <section class="card" id="section-step4">
+    <div class="step-header" style="--step-color: #C9972B">
+      <div class="step-num">
+        <span class="step-label-sm">STEP</span>
+        <span class="step-num-big">4</span>
+      </div>
+      <div class="step-title">Pinpoint Tests (PPT)</div>
+    </div>
+    <div class="card-body">
+      <div class="ppt-meta-grid">
+        <div class="field">
+          <label>Starting DTC / Code</label>
+          <input type="text" placeholder="e.g. U0401:00" class="mono" data-key="s4_start_dtc">
+        </div>
+        <div class="field">
+          <label>Module</label>
+          <input type="text" placeholder="e.g. ABS" data-key="s4_module">
+        </div>
+        <div class="field">
+          <label>PPT Reference</label>
+          <input type="text" placeholder="e.g. AI, DK, C…" data-key="s4_ppt_ref">
+        </div>
+        <div class="field">
+          <label>Source / Portal</label>
+          <input type="text" placeholder="e.g. Alldata" data-key="s4_source">
+        </div>
+      </div>
+      <div class="table-wrap mt-12">
+        <table class="ppt-table" id="ppt-table">
+          <thead>
+            <tr>
+              <th class="col-step-id">Step ID</th>
+              <th>Action Performed</th>
+              <th>Expected Result (OEM)</th>
+              <th>Actual Result / Tech Notes</th>
+              <th class="col-del no-print"></th>
+            </tr>
+          </thead>
+          <tbody id="ppt-body">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <button class="btn-add-row no-print" id="add-ppt-row">
+        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Add PPT Row
+      </button>
+      <p class="warn-note mt-8">⚠ Document every step — even when results match expectations. Your PPT log is a client deliverable.</p>
+    </div>
+  </section>
+
+  <!-- ── STEP 5 ────────────────────────────────────────────────── -->
+  <section class="card" id="section-step5">
+    <div class="step-header" style="--step-color: #B87020">
+      <div class="step-num">
+        <span class="step-label-sm">STEP</span>
+        <span class="step-num-big">5</span>
+      </div>
+      <div class="step-title">Escalate to Technical Expert</div>
+    </div>
+    <div class="card-body">
+      <div class="escalate-banner no-print" id="escalate-share-banner">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="12" cy="3" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="3" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7l5-3M5 9l5 3" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Ready to escalate? Generate a share link so your expert can review everything you've documented so far.</span>
+        <button class="btn btn-sm btn-primary" id="btn-escalate-share">Generate Share Link</button>
+      </div>
+      <div class="two-col mt-12">
+        <div class="field-group">
+          <div class="field">
+            <label>Escalation Required?</label>
+            <div class="check-inline">
+              <label class="check-item"><input type="radio" name="escalate-req" value="yes" data-key="s5_required"><span>Yes</span></label>
+              <label class="check-item"><input type="radio" name="escalate-req" value="no" data-key="s5_required"><span>No — proceeding to Step 6</span></label>
+            </div>
+          </div>
+          <div class="field mt-8">
+            <label>Expert Contacted</label>
+            <input type="text" placeholder="Name" data-key="s5_expert">
+          </div>
+          <div class="field mt-8">
+            <label>Contact Method</label>
+            <input type="text" placeholder="e.g. Phone, Teams, Email" data-key="s5_method">
+          </div>
+          <div class="field mt-8">
+            <label>Date / Time</label>
+            <input type="text" placeholder="e.g. 05/26/2026 2:15 PM" data-key="s5_datetime">
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>Reason for Escalation</label>
+            <textarea rows="4" placeholder="Describe what aspect of the PPT was unclear, unexpected results, or equipment limitations." data-key="s5_reason"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="field mt-12">
+        <label>Expert Guidance / Findings</label>
+        <textarea rows="4" placeholder="Document what the expert advised, any additional tests recommended, and the outcome of following that guidance." data-key="s5_guidance"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 6 ────────────────────────────────────────────────── -->
+  <section class="card" id="section-step6">
+    <div class="step-header" style="--step-color: #1B5E3C">
+      <div class="step-num">
+        <span class="step-label-sm">STEP</span>
+        <span class="step-num-big">6</span>
+      </div>
+      <div class="step-title">Perform and Verify the Repair</div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <label>Root Cause Identified</label>
+        <textarea rows="2" placeholder="State the confirmed root cause of the concern." data-key="s6_root_cause"></textarea>
+      </div>
+      <div class="field mt-12">
+        <label>Repair Performed</label>
+        <textarea rows="3" placeholder="Describe all work performed, parts replaced, software updated, calibrations completed, etc." data-key="s6_repair"></textarea>
+      </div>
+      <div class="two-col mt-12">
+        <div class="field-group">
+          <div class="field">
+            <label>Client Approval</label>
+            <div class="check-group">
+              <label class="check-item"><input type="radio" name="approval" value="verbal" data-key="s6_approval"><span>Yes — verbal approval</span></label>
+              <label class="check-item"><input type="radio" name="approval" value="written" data-key="s6_approval"><span>Yes — written approval</span></label>
+              <label class="check-item"><input type="radio" name="approval" value="pending" data-key="s6_approval"><span>Pending approval</span></label>
+            </div>
+          </div>
+          <div class="field mt-8">
+            <label>Codes Cleared After Repair?</label>
+            <div class="check-inline">
+              <label class="check-item"><input type="radio" name="codes-cleared" value="yes" data-key="s6_cleared"><span>Yes</span></label>
+              <label class="check-item"><input type="radio" name="codes-cleared" value="no" data-key="s6_cleared"><span>Not yet</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field">
+            <label>Post-Repair Test Drive</label>
+            <div class="check-inline">
+              <label class="check-item"><input type="radio" name="post-drive" value="done" data-key="s6_postdrive"><span>Completed</span></label>
+              <label class="check-item"><input type="radio" name="post-drive" value="na" data-key="s6_postdrive"><span>Not required</span></label>
+            </div>
+          </div>
+          <div class="two-sub mt-8">
+            <div class="field">
+              <label>Duration</label>
+              <input type="text" placeholder="e.g. 20 min" data-key="s6_drive_duration">
+            </div>
+            <div class="field">
+              <label>Distance</label>
+              <input type="text" placeholder="e.g. 7.4 mi" data-key="s6_drive_distance">
+            </div>
+          </div>
+          <div class="field mt-8">
+            <label>Post-Drive Scan</label>
+            <div class="check-inline">
+              <label class="check-item"><input type="radio" name="post-scan" value="yes" data-key="s6_postscan"><span>Performed</span></label>
+              <label class="check-item"><input type="radio" name="post-scan" value="no" data-key="s6_postscan"><span>Not performed</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="two-col mt-12">
+        <div class="field-group">
+          <label class="group-label">Codes After Repair</label>
+          <label class="check-item"><input type="radio" name="post-codes" value="none" data-key="s6_postcodes"><span>None — repair verified ✓</span></label>
+          <label class="check-item"><input type="radio" name="post-codes" value="returned" data-key="s6_postcodes"><span>Code(s) returned — see notes</span></label>
+          <div class="field mt-8">
+            <label>Returned Codes (if any)</label>
+            <input type="text" placeholder="List codes" class="mono" data-key="s6_returned_codes">
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="group-label">Concern Status at Close</label>
+          <label class="check-item"><input type="radio" name="close-status" value="resolved" data-key="s6_status"><span>Resolved</span></label>
+          <label class="check-item"><input type="radio" name="close-status" value="partial" data-key="s6_status"><span>Partially resolved — follow-up needed</span></label>
+          <label class="check-item"><input type="radio" name="close-status" value="unresolved-pending" data-key="s6_status"><span>Unresolved — pending approval for additional work</span></label>
+          <label class="check-item"><input type="radio" name="close-status" value="escalated" data-key="s6_status"><span>Unresolved — escalated</span></label>
+        </div>
+      </div>
+      <div class="field mt-12">
+        <label>Additional Notes / Follow-Up Actions</label>
+        <textarea rows="4" placeholder="Any notes for the next tech, required follow-up work, parts on order, or actions pending client decision." data-key="s6_notes"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SIGN-OFF ─────────────────────────────────────────────── -->
+  <section class="card signoff-card" id="section-signoff">
+    <div class="card-header">
+      <span class="card-label">Sign-Off</span>
+    </div>
+    <div class="signoff-grid">
+      <div class="field">
+        <label>Technician Signature</label>
+        <div class="sig-line"></div>
+        <input type="text" placeholder="Type name to confirm" data-key="sig_tech">
+      </div>
+      <div class="field">
+        <label>Reviewer / Supervisor</label>
+        <div class="sig-line"></div>
+        <input type="text" placeholder="Type name to confirm" data-key="sig_reviewer">
+      </div>
+      <div class="field">
+        <label>Date Completed</label>
+        <input type="date" data-key="sig_date">
+      </div>
+    </div>
+    <p class="signoff-note">Attach this worksheet to the repair order · Keep a copy for shop records · File escalation notes with this document</p>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════ HISTORY DRAWER ═══════════════════════════ -->
+<div id="history-overlay" class="overlay hidden"></div>
+<aside id="history-drawer" class="drawer hidden">
+  <div class="drawer-header">
+    <h2>Saved Worksheets</h2>
+    <button class="btn btn-ghost btn-icon" id="close-history">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="history-list">
+    <!-- populated by JS -->
+  </div>
+  <div class="drawer-empty hidden" id="history-empty">
+    <p>No saved worksheets yet.</p>
+    <p class="small">Worksheets auto-save as you type.</p>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════ SHARE MODAL ═══════════════════════════ -->
+<div id="share-overlay" class="overlay hidden"></div>
+<div id="share-modal" class="modal hidden">
+  <div class="modal-header">
+    <h2>Share With Expert</h2>
+    <button class="btn btn-ghost btn-icon" id="close-share">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <p class="modal-desc">This link contains a read-only snapshot of your current worksheet. Send it to your expert — no login required.</p>
+  <div class="share-url-box">
+    <input type="text" id="share-url-input" readonly>
+    <button class="btn btn-primary" id="copy-share-url">Copy</button>
+  </div>
+  <p class="modal-note">The link encodes your worksheet data directly — nothing is stored on a server.</p>
+</div>
+
+<!-- ═══════════════════════════ TOAST ═══════════════════════════ -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
